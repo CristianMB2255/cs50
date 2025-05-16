@@ -17,12 +17,15 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Get and check the key for non-negatives
+    // Verify the key for valid input
     int key = atoi(argv[1]);
-    if (key <= 0)
+    for (int i = 0; i < strlen(argv[1]); i++)
     {
-        printf("Expected numeric and non-negative integer.\n");
-        return 1;
+        if (!isdigit(argv[1][i]))
+        {
+            printf("Expected numeric and non-negative integer.\n");
+            return 1;
+        }
     }
     key = key % ALPHABET_SIZE;
 
@@ -31,35 +34,35 @@ int main(int argc, char *argv[])
 
     // Make the cipher
     caesarWrap(text, key);
+    printf("ciphertext: %s\n", text);
     return 0;
 }
 
-// Calculate the cipher and print the result
+// Calculate the cipher
 void caesarWrap(char *text, int key)
 {
     int textSize = strlen(text);
 
-    printf("ciphertext: ");
     for (int i = 0, c = 0; i < textSize; i++)
     {
         c = text[i];
 
         // If character isn't a letter
         if (!isalpha(c))
-        {
-            printf("%c", c);
             continue;
-        }
 
         // Letter position + key % alphabetSize
         if (c >= 'A' && c <= 'Z')
         {
-            c = ((c - 'A' + key) % ALPHABET_SIZE) + 'A';
+            c = ((c - 'A' + key) % ALPHABET_SIZE);
+            c += 'A';
         }
-        else {
-            c = ((c - 'a' + key) % ALPHABET_SIZE) + 'a';
+        else
+        {
+            c = ((c - 'a' + key) % ALPHABET_SIZE);
+            c += 'a';
         }
-        printf("%c", c);
+
+        text[i] = c;
     }
-    printf("\n");
 }
