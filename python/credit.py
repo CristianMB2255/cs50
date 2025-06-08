@@ -38,8 +38,7 @@ def luhn_checksum(number, numberLength):
             char = char * 2
 
         if char > 9:
-            char -= 9
-            sum += char
+            sum += char - 9
 
         # If odd
         # Sum the digit
@@ -50,7 +49,12 @@ def luhn_checksum(number, numberLength):
 
 
 # Get the credit card number & length
-number = str(get_int("The the credit card number: "))
+number = 0
+
+while number <= 0:
+    number = get_int("The the credit card number: ")
+
+number = str(number)
 numberLength = len(number)
 
 # Get card info
